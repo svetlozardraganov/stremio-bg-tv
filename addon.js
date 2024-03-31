@@ -11,8 +11,8 @@ const manifest = {
     "id": "bg-tv",
     "version": "1.0.0",
 
-    "name": "BG-TV Addon",
-    "description": "Sample addon providing a few public domain movies",
+    "name": "BG-TV",
+    "description": "BG-TV addon provides streaming Bulgarian TV-channels from https://seirsanduk.net/",
 
     // set what type of resources we will return
     "resources": [

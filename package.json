@@ -1,7 +1,7 @@
 {
   "name": "stremio-bg-tv",
   "version": "1.0.0",
-  "description": "Hello World add-on for stremio",
+  "description": "BG-TV addon provides streaming Bulgarian TV-channels from https://seirsanduk.net/",
   "main": "server.js",
   "scripts": {
     "test": "node test/*",

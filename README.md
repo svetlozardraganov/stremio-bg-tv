@@ -1,4 +1,4 @@
-# Hello world add-on for Stremio
+# BG-TV add-on for Stremio
 
 ### Adds a few public domain movies to Stremio
 
