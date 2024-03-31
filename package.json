@@ -9,19 +9,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Stremio/addon-helloworld.git"
+    "url": "https://github.com/svetlozardraganov/stremio-bg-tv"
   },
   "keywords": [
     "stremio",
     "stremio-addons",
     "addons"
   ],
-  "author": "Smart Code OOD",
+  "author": "Svetlozar Draganov",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Stremio/addon-helloworld/issues"
+    "url": "https://github.com/svetlozardraganov/stremio-bg-tv/issues"
   },
-  "homepage": "https://github.com/Stremio/addon-helloworld",
+  "homepage": "https://github.com/svetlozardraganov/stremio-bg-tv",
   "dependencies": {
     "cheerio": "^1.0.0-rc.12",
     "magnet-uri": "^5.1.3",
