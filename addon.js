@@ -302,6 +302,8 @@ async function seirsanduk_get_stream_url(input) {
     console.log('start seirsanduk_get_stream_url()')
     // Open channel page to get the m3u-playlist
 
+    const superagent_get_stream = superagent.agent();
+
     for (const key in SEIRSANDUK_CHANNELS) {
 
         if (key == input) {
@@ -310,9 +312,10 @@ async function seirsanduk_get_stream_url(input) {
             // await new Promise(resolve => setTimeout(resolve, 300));
 
             try {
-                
+
                 console.log('Open URL with SuperAgent:', channel_meta.channel_url)
-                const response = await AGENT.get(channel_meta.channel_url)
+                // const response = await AGENT.get(channel_meta.channel_url)
+                const response = await superagent_get_stream.get(channel_meta.channel_url)
                 console.log('Response Status:', response.status)
 
                 const response_lines = response.text.split('\n');
