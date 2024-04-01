@@ -83,7 +83,7 @@ const generateMetaPreview = function (value, key) {
     console.log('end generateMetaPreview()')
 
     return {
-        id: 'bg-tv-'+ value.name,
+        id: 'bg-tv-' + value.name,
         // id: 'bg-tv-jellyfish',
         type: value.type,
         name: value.name,
@@ -135,21 +135,23 @@ builder.defineMetaHandler(args => {
     console.log('start defineMetaHandler()')
     console.log(args)
 
-    const channel_name =  args.id.replace('bg-tv-','')
+    const channel_name = args.id.replace('bg-tv-', '')
 
-    return Promise.resolve({ meta: {
-        id: args.id,
-        type: "movie",
-        name: SEIRSANDUK_CHANNELS[channel_name].name,
-        // poster: "https://images.unsplash.com/photo-1496108493338-3b30de66f9be",
-        // genres: ["Demo", "Nature"],
-        // description: "A .mkv video clip useful for testing the network streaming and playback performance of media streamers & HTPCs.",
-        // cast: ["Some random jellyfishes"],
-        // director: ["ScottAllyn"],
-        logo: SEIRSANDUK_CHANNELS[channel_name].channel_icon_url,
-        // background: "https://images.unsplash.com/photo-1461783470466-185038239ee3",
-        // runtime: "30 sec"
-    }})
+    return Promise.resolve({
+        meta: {
+            id: args.id,
+            type: "movie",
+            name: SEIRSANDUK_CHANNELS[channel_name].name,
+            // poster: "https://images.unsplash.com/photo-1496108493338-3b30de66f9be",
+            // genres: ["Demo", "Nature"],
+            // description: "A .mkv video clip useful for testing the network streaming and playback performance of media streamers & HTPCs.",
+            // cast: ["Some random jellyfishes"],
+            // director: ["ScottAllyn"],
+            logo: SEIRSANDUK_CHANNELS[channel_name].channel_icon_url,
+            // background: "https://images.unsplash.com/photo-1461783470466-185038239ee3",
+            // runtime: "30 sec"
+        }
+    })
 
     // return new Promise((resolve, reject) => {
 
@@ -302,37 +304,43 @@ async function seirsanduk_get_stream_url(input) {
 
     for (const key in SEIRSANDUK_CHANNELS) {
 
-        if (key ==  input){
+        if (key == input) {
             const channel_meta = SEIRSANDUK_CHANNELS[key]
 
             await new Promise(resolve => setTimeout(resolve, 300));
 
-            const response = await AGENT.get(channel_meta.channel_url)
-            const response_lines = response.text.split('\n');
+            try {
+                const response = await AGENT.get(channel_meta.channel_url)
+                const response_lines = response.text.split('\n');
 
-            for (const line of response_lines) {
-                if (line.includes('file:')) {
+                for (const line of response_lines) {
+                    if (line.includes('file:')) {
 
-                    const regex = /file:"([^"]+)"/;
+                        console.log('found file:', line)
+                        const regex = /file:"([^"]+)"/;
 
-                    const match = line.match(regex);
+                        const match = line.match(regex);
 
-                    if (match) {
-                        const url = match[1]; // Access the captured URL from the first capture group (index 1)
-                        console.log('Extracted URL:', url);
-                        channel_meta.stream_url = url
+                        if (match) {
+                            const url = match[1]; // Access the captured URL from the first capture group (index 1)
+                            console.log('Extracted URL:', url);
+                            channel_meta.stream_url = url
 
-                    } else {
-                        console.log('URL not found in the string.');
+                        } else {
+                            console.log('URL not found in the string.');
+                        }
+
                     }
-
                 }
-            }
+
+            } catch (error) {
+                console.error('There was a problem with your superagent request:', error);
+            };
         }
     }
-
     console.log('end seirsanduk_get_stream_urls()')
 }
+
 
 
 async function seirsanduk() {
@@ -353,16 +361,18 @@ async function seirsanduk() {
     console.log('end seirsanduk()')
 }
 
-async function get_stream(args){
+async function get_stream(args) {
 
-    console.log(args)
+    console.log('start get_stream()')
     const channel_name = await args.id.replace('bg-tv-', '')
     await seirsanduk_get_stream_url(channel_name)
 
-    console.log('Channel URL:',SEIRSANDUK_CHANNELS[channel_name].stream_url)
+    console.log('Channel URL:', SEIRSANDUK_CHANNELS[channel_name].stream_url)
 
+    console.log('end get_stream()')
+    console.log({ streams: [{ name: SEIRSANDUK_CHANNELS[channel_name].name, type: 'movie', url: SEIRSANDUK_CHANNELS[channel_name].stream_url, }] })
 
-    return {streams: [{name: SEIRSANDUK_CHANNELS[channel_name].name, type: 'movie', url: SEIRSANDUK_CHANNELS[channel_name].stream_url,}]}
+    return { streams: [{ name: SEIRSANDUK_CHANNELS[channel_name].name, type: 'movie', url: SEIRSANDUK_CHANNELS[channel_name].stream_url, }] }
 
 }
 
