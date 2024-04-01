@@ -260,6 +260,8 @@ async function seirsanduk_get_channel_urls() {
             channel_icon_url: url + img_url
         }
 
+        console.log(SEIRSANDUK_CHANNELS[name])
+
         // console.log(channels_urls)
 
 
