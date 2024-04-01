@@ -307,10 +307,14 @@ async function seirsanduk_get_stream_url(input) {
         if (key == input) {
             const channel_meta = SEIRSANDUK_CHANNELS[key]
 
-            await new Promise(resolve => setTimeout(resolve, 300));
+            // await new Promise(resolve => setTimeout(resolve, 300));
 
             try {
+                
+                console.log('Open URL with SuperAgent:', channel_meta.channel_url)
                 const response = await AGENT.get(channel_meta.channel_url)
+                console.log('Response Status:', response.status)
+
                 const response_lines = response.text.split('\n');
 
                 for (const line of response_lines) {
